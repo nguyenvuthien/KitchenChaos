@@ -25,6 +25,12 @@ public class DeliveryManager : NetworkBehaviour
         Instance = this;
         waitingRecipeSOList = new List<RecipeSO>();
     }
+
+    private void NetworkManager_OnClientConnectedCallback(ulong obj)
+    {
+        throw new NotImplementedException();
+    }
+
     private void Update()
     {
         if(!IsServer)
