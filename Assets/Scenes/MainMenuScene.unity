@@ -1420,8 +1420,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 132664807}
   - {fileID: 975169220}
+  - {fileID: 132664807}
   - {fileID: 1481212592}
   - {fileID: 1023588810}
   m_Father: {fileID: 1732278726}
@@ -1443,7 +1443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e088ba2b5d0c6448845830496d6ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton: {fileID: 132664810}
+  playMultiplayerButton: {fileID: 975169223}
+  playSingleplayerButton: {fileID: 132664810}
   quitButton: {fileID: 1481212595}
 --- !u!1 &1481212591
 GameObject:
