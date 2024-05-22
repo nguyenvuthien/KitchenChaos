@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3008399662495924479, guid: 759f801dd6e1143468fff4549cd7737a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -179,6 +184,11 @@ PrefabInstance:
       propertyPath: visualGameObjectArray.Array.data[0]
       value: 
       objectReference: {fileID: 2294444662774834469}
+    - target: {fileID: 5487201249196216838, guid: 8596b353a2996694cbbdee527b994a09,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5650026263918314124, guid: 8596b353a2996694cbbdee527b994a09,
         type: 3}
       propertyPath: GlobalObjectIdHash
