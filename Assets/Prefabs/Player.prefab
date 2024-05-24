@@ -91,10 +91,10 @@ MonoBehaviour:
     m_Bits: 192
   kitchenObjectHoldPoint: {fileID: 6517513055936020524}
   spawnPositionList:
-  - {x: -2, y: 0, z: 0}
-  - {x: 2, y: 0, z: 0}
-  - {x: -2, y: 0, z: -2}
-  - {x: 2, y: 0, z: -2}
+  - {x: -5, y: 0, z: 0}
+  - {x: -10, y: 0, z: 0}
+  - {x: 5, y: 0, z: 0}
+  - {x: 10, y: 0, z: 0}
   playerVisual: {fileID: 7619895488006776233}
 --- !u!114 &1712739310272225472
 MonoBehaviour:
