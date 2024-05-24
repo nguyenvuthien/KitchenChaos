@@ -2,14 +2,19 @@
 using Cinemachine;
 using Unity.Netcode;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
+    public LayerMask wallLayer; // Layer chứa các bức tường
+    public float checkInterval = 0.1f; // Thời gian giữa mỗi lần kiểm tra
+
+    private Transform playerTransform;
+    private List<Renderer> hiddenWalls = new List<Renderer>();
 
     private void Start()
     {
-        // Đợi một khoảng thời gian để đảm bảo Player đã được tạo
         StartCoroutine(FindAndAssignPlayer());
     }
 
@@ -18,16 +23,15 @@ public class CameraController : MonoBehaviour
         // Đợi cho đến khi Player được tạo
         yield return new WaitForSeconds(1.0f);
 
-        // Tìm tất cả các đối tượng Player
-        var players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (var player in players)
+        // Chỉ thực hiện logic này trên client cục bộ
+        if (NetworkManager.Singleton.IsClient && NetworkManager.Singleton.LocalClient != null)
         {
-            var networkObject = player.GetComponent<NetworkObject>();
-            if (networkObject != null && networkObject.IsLocalPlayer)
+            var localPlayer = NetworkManager.Singleton.LocalClient.PlayerObject;
+            if (localPlayer != null)
             {
-                SetFollowTarget(player.transform);
-                break;
+                SetFollowTarget(localPlayer.transform);
+                playerTransform = localPlayer.transform;
+                StartCoroutine(CheckWalls());
             }
         }
     }
@@ -37,7 +41,44 @@ public class CameraController : MonoBehaviour
         if (virtualCamera != null)
         {
             virtualCamera.Follow = target;
-            //virtualCamera.LookAt = target;
+        }
+    }
+
+    private IEnumerator CheckWalls()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(checkInterval);
+            HideWallsBetweenCameraAndPlayer();
+        }
+    }
+
+    private void HideWallsBetweenCameraAndPlayer()
+    {
+        if (playerTransform == null || virtualCamera == null) return;
+
+        Vector3 cameraPosition = virtualCamera.transform.position;
+        Vector3 playerPosition = playerTransform.position;
+        Vector3 direction = playerPosition - cameraPosition;
+        float distance = direction.magnitude;
+
+        // Bỏ ẩn các tường đã ẩn trước đó
+        foreach (var wall in hiddenWalls)
+        {
+            wall.enabled = true;
+        }
+        hiddenWalls.Clear();
+
+        // Raycast để kiểm tra tường giữa camera và player
+        RaycastHit[] hits = Physics.RaycastAll(cameraPosition, direction, distance, wallLayer);
+        foreach (var hit in hits)
+        {
+            Renderer wallRenderer = hit.collider.GetComponent<Renderer>();
+            if (wallRenderer != null)
+            {
+                wallRenderer.enabled = false;
+                hiddenWalls.Add(wallRenderer);
+            }
         }
     }
 }
