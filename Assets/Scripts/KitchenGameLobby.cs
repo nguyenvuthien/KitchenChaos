@@ -54,7 +54,7 @@ public class KitchenGameLobby : MonoBehaviour
 
             // Tạo một tên profile hợp lệ, ví dụ: "Player_Profile_<RandomNumber>"
             string uniqueProfileId = "Player_Profile_" + UnityEngine.Random.Range(0, 100000);
-            Debug.Log("Unique Profile ID: " + uniqueProfileId);
+            //Debug.Log("Unique Profile ID: " + uniqueProfileId);
 
             // Đảm bảo rằng tên profile không quá 30 ký tự
             if (uniqueProfileId.Length > 30)
@@ -68,7 +68,7 @@ public class KitchenGameLobby : MonoBehaviour
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-            Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
+            //Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
         }
     }
 
