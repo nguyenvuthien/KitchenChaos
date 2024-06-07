@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -48,26 +48,43 @@ public class KitchenGameLobby : MonoBehaviour
 
     private async void InitializeUnityAuthentication()
     {
-        if(UnityServices.State != ServicesInitializationState.Initialized)
+        if (UnityServices.State != ServicesInitializationState.Initialized)
         {
             InitializationOptions initializationOptions = new InitializationOptions();
-            //initializationOptions.SetProfile(UnityEngine.Random.Range(0, 1000).ToString());
+
+            // Tạo một tên profile hợp lệ, ví dụ: "Player_Profile_<RandomNumber>"
+            string uniqueProfileId = "Player_Profile_" + UnityEngine.Random.Range(0, 100000);
+            Debug.Log("Unique Profile ID: " + uniqueProfileId);
+
+            // Đảm bảo rằng tên profile không quá 30 ký tự
+            if (uniqueProfileId.Length > 30)
+            {
+                uniqueProfileId = uniqueProfileId.Substring(0, 30);
+            }
+
+            initializationOptions.SetProfile(uniqueProfileId);
 
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+            Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
         }
     }
 
+
     private void Update()
     {
-        HandleHeartbeat();
-        HandlePeriodicListHobbies();
+        if (UnityServices.State == ServicesInitializationState.Initialized)
+        {
+            HandleHeartbeat();
+            HandlePeriodicListHobbies();
+        }
     }
 
     private void HandlePeriodicListHobbies()
     {
-        if(joinedLobby == null && AuthenticationService.Instance.IsSignedIn && SceneManager.GetActiveScene().name == Loader.Scene.LobbyScene.ToString())
+        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn && SceneManager.GetActiveScene().name == Loader.Scene.LobbyScene.ToString())
         {
             listLobbiesTimer -= Time.deltaTime;
             if (listLobbiesTimer < 0f)
