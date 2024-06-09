@@ -101,7 +101,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         });
 
         SetPlayerNameServerRpc(GetPlayerName());
-        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId ?? "");
     }
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
@@ -134,7 +134,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
     {
         SetPlayerNameServerRpc(GetPlayerName());
-        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
+        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId ?? "");
     }
 
     [ServerRpc(RequireOwnership = false)]
