@@ -195,6 +195,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
             transform.position += moveDir * moveDistance;
         }
 
+        //true neu moveDir khac 0 va nguoc lai
         isWalking = moveDir != Vector3.zero;
 
         //xoay nhan vat

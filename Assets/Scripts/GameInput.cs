@@ -115,6 +115,7 @@ public class GameInput : MonoBehaviour
         }
     }
 
+    //thay doi phim dieu khien
     public void RebindBinding(Binding binding, Action onActionRebound)
     {
         playerInputActions.Player.Disable();
