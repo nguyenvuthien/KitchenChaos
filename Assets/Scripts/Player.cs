@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -107,6 +107,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         return isWalking;
     }
 
+    //Xu ly va cham
     private void HandleInteractions()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
@@ -148,13 +149,16 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         //luu giu huong di chuyen trong khong gian 3d voi y = 0
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
+        //khoảng cách di chuyển dựa trên tốc độ di chuyển (moveSpeed) và thời gian giữa các khung hình
         float moveDistance = moveSpeed * Time.deltaTime;
+
+
         float playerRadius = .7f;
         //float playerHeight = 2f;
         bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
         if (!canMove)
         {
-            //Cannot move towards moveDir
+            //Khong the di chuyen theo moveDir
 
             //Attempt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
@@ -163,13 +167,12 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
             if (canMove)
             {
-                //Can move only on the X
+                //chi co the di chuyen theo truc X
                 moveDir = moveDirX;
             }
             else
             {
-                //Cannot move only on the X
-
+                //khong the di chuyen theo truc X
                 //Attempt only Z movement
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
 
@@ -178,12 +181,12 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
                 if (canMove)
                 {
-                    //Can move only on the Z
+                    //chi co the di chuyen theo truc Z
                     moveDir = moveDirZ;
                 }
                 else
                 {
-                    //Cannot move in any direction
+                    //Khong the di chuyen theo bat ky huong nao
 
 
                 }

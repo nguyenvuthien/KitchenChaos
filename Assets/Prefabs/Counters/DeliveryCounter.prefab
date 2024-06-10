@@ -786,6 +786,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeliveryCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 3948333342762158993, guid: 2cb3a36d5ba4e4845bf53d4ba74b0cca,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948333342762158993, guid: 2cb3a36d5ba4e4845bf53d4ba74b0cca,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948333342762158993, guid: 2cb3a36d5ba4e4845bf53d4ba74b0cca,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4797544513149252568, guid: 2cb3a36d5ba4e4845bf53d4ba74b0cca,
         type: 3}
       propertyPath: m_LocalPosition.x
