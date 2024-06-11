@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -33,6 +33,7 @@ public class DeliveryManager : NetworkBehaviour
 
     private void Update()
     {
+        //Chi server moi tao recipes con client thi lay tu server
         if(!IsServer)
         {
             return;
