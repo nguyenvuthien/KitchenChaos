@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -30,11 +31,16 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
     [SerializeField] private Transform kitchenObjectHoldPoint;
     [SerializeField] private List<Vector3> spawnPositionList;
     [SerializeField] private PlayerVisual playerVisual;
+    [SerializeField] private LayerMask wallLayer;
+
+    private CinemachineVirtualCamera virtualCamera;
 
     private bool isWalking;
     private Vector3 lastInteractDir;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
+
+    private List<GameObject> hiddenWalls = new List<GameObject>(); // Danh sách các tường bị ẩn
 
 
     public override void OnNetworkSpawn()
@@ -42,6 +48,11 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         if(IsOwner)
         {
             LocalInstance = this;
+            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>(); // Tìm đối tượng camera
+            if (virtualCamera != null)
+            {
+                virtualCamera.Follow = transform; // Đặt camera theo dõi nhân vật
+            }
         }
 
         transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId)];
@@ -100,6 +111,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         }
         HandleMovement();
         HandleInteractions();
+        HandleCameraObstructions(); // Thêm phương thức xử lý vật cản camera
     }
 
     public bool IsWalking()
@@ -206,6 +218,29 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         if (moveDir != Vector3.zero)
         {
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        }
+    }
+
+    private void HandleCameraObstructions()
+    {
+        // Hiển thị lại các bức tường đã ẩn
+        foreach (GameObject wall in hiddenWalls)
+        {
+            wall.SetActive(true);
+        }
+        hiddenWalls.Clear();
+
+        Vector3 directionToPlayer = (transform.position - virtualCamera.transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(transform.position, virtualCamera.transform.position);
+
+        if (Physics.Raycast(virtualCamera.transform.position, directionToPlayer, out RaycastHit hitInfo, distanceToPlayer, wallLayer))
+        {
+            GameObject hitObject = hitInfo.transform.gameObject;
+            if (hitObject.layer == LayerMask.NameToLayer("Walls"))
+            {
+                hitObject.SetActive(false); // Ẩn tường
+                hiddenWalls.Add(hitObject); // Thêm vào danh sách các tường bị ẩn
+            }
         }
     }
 

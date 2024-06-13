@@ -96,6 +96,10 @@ MonoBehaviour:
   - {x: 5, y: 0, z: 0}
   - {x: 10, y: 0, z: 0}
   playerVisual: {fileID: 7619895488006776233}
+  virtualCamera: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &1712739310272225472
 MonoBehaviour:
   m_ObjectHideFlags: 0
