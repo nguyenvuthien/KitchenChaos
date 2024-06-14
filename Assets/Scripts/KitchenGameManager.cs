@@ -215,6 +215,12 @@ public class KitchenGameManager : NetworkBehaviour
         return 1 - (gamePlayingTimer.Value / gamePlayingTimerMax);
     }
 
+    public float GetGamePlayingTime()
+    {
+        return gamePlayingTimer.Value;
+    }
+
+
     public void TogglePauseGame()
     {
         isLocalGamePaused = !isLocalGamePaused;
