@@ -220,6 +220,10 @@ public class KitchenGameManager : NetworkBehaviour
         return gamePlayingTimer.Value;
     }
 
+    public float GetGamePlayingTimeMax()
+    {
+        return gamePlayingTimerMax;
+    }
 
     public void TogglePauseGame()
     {
