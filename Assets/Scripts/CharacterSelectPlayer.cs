@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -17,6 +17,12 @@ public class CharacterSelectPlayer : MonoBehaviour
     {
         kickButton.onClick.AddListener(() =>
         {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                Debug.LogWarning("Only the server can kick players.");
+                return;
+            }
+
             PlayerData playerData = KitchenGameMultiplayer.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
             KitchenGameLobby.Instance.KickPlayer(playerData.playerId.ToString());
             KitchenGameMultiplayer.Instance.KickPlayer(playerData.clientId);
@@ -58,6 +64,9 @@ public class CharacterSelectPlayer : MonoBehaviour
             playerNameText.text = playerData.playerName.ToString();
 
             playerVisual.SetPlayerColor(KitchenGameMultiplayer.Instance.GetPlayerColor(playerData.colorId));
+
+            // Vô hiệu hóa nút kick nếu người chơi này là chính người chơi hiện tại
+            kickButton.interactable = (playerData.clientId != NetworkManager.Singleton.LocalClientId);
         }
         else
         {
