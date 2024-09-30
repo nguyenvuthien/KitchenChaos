@@ -135,6 +135,10 @@ public class DeliveryManager : NetworkBehaviour
 
         OnRecipeCompeleted?.Invoke(this, EventArgs.Empty);
         OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+
+        // Gửi điểm lên LeaderboardManager
+        string playerName = KitchenGameMultiplayer.Instance.GetPlayerName();
+        LeaderboardManager.Instance.AddNewScore(playerName, successfulRecipesAmount);
     }
 
     public List<RecipeSO> GetWaitingRecipeSOList()
