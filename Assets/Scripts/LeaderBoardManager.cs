@@ -33,14 +33,7 @@ public class LeaderboardManager : NetworkBehaviour
     // Gọi khi có điểm cao mới
     public void AddNewScore(string playerName, int score)
     {
-        if (IsServer)
-        {
-            AddNewScoreServerRpc(playerName, score);
-        }
-        else
-        {
-            AddNewScoreServerRpc(playerName, score);
-        }
+        AddNewScoreServerRpc(playerName, score);
     }
 
     [ServerRpc(RequireOwnership = false)]
