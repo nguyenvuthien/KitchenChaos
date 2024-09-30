@@ -24,7 +24,7 @@ public class LeaderboardUI : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
         if (LeaderboardManager.Instance != null)
         {

@@ -20,8 +20,8 @@ public class LeaderboardManager : NetworkBehaviour
         if (Instance == null)
         {
             Instance = this;
-            saveFilePath = Path.Combine(Application.persistentDataPath, "leaderboard.json");
             DontDestroyOnLoad(gameObject);
+            saveFilePath = Path.Combine(Application.persistentDataPath, "leaderboard.json");
             LoadLeaderboard();
         }
         else
@@ -133,5 +133,20 @@ public class LeaderboardManager : NetworkBehaviour
     public List<LeaderboardEntry> GetLeaderboard()
     {
         return leaderboardEntries;
+    }
+
+    public void ResetLeaderboard()
+    {
+        // Xóa nội dung file leaderboard.json
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+        }
+
+        // Khởi tạo lại danh sách điểm
+        leaderboardEntries = new List<LeaderboardEntry>();
+
+        // Kích hoạt sự kiện cập nhật bảng xếp hạng
+        OnLeaderboardUpdated?.Invoke(this, EventArgs.Empty);
     }
 }
